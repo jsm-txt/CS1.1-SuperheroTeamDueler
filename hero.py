@@ -18,11 +18,38 @@ class Hero:
         
 
     def fight(self, opponent):
-        fighter_list =[ my_hero.name ,opponent]
-        winner = random.choice(fighter_list)
+        # if hero.abilities == False:
+        #     if opponent.abilities == False:
+        #         print(f"{opponent.name} draw")
+        #     else:print(f"{hero.name} lost")
+        # if opponent.abilities ==  True:
+        #     if hero.abilities == False:
+        #         print(f"{opponent.name} wins")
+
         print("A fight ensues")
-        print(f'{my_hero.name} and {opponent} are battaling to death!!')
-        return(print(f'{winner} remains victorious.'))
+        while hero.current_health >= 0 or opponent.current_health >= 0 :
+            power = hero.attack()
+            # print(power)
+            opponent.take_damage(power)
+            print(f'Opponent health is {opponent.current_health}')
+
+            power2 = opponent.attack()
+            # print(power2)
+            hero.take_damage(power2)
+            print(f'Hero health is {hero.current_health}')
+            print(f'{hero.name} and {opponent.name} are battaling to death!!')
+            if hero.is_alive() == False:
+                break
+            if opponent.is_alive() == False:
+                break
+            
+        
+        if hero.current_health >= 0:
+            return print(f'{opponent.name} remains victorious!!')
+        if opponent.current_health >=0:
+            return print(f'{hero.name} remains victorious!!')
+
+        
 
     def add_ability(self, ability):
         ''' Add ability to abilities list '''
@@ -45,7 +72,7 @@ class Hero:
         # TODO: Add armor object that is passed in to `self.armors`
         self.armors.append(armor)
 
-    def defend(self, damage):
+    def defend(self):
         '''Calculate the total block amount from all armor blocks.
         return: total_block:Int
         '''
@@ -63,24 +90,45 @@ class Hero:
         '''
         # TODO: Create a method that updates self.current_health to the current
         # minus the the amount returned from calling self.defend(damage).
-        block = self.defend(damage)
-        damage -= block
+        block = self.defend()
+        damage = damage - block
+
+        # print(block)
+        # print(damage)
+        if block > damage:
+            damage = 0
+        
         self.current_health -= damage
         return
+
+    def is_alive(self):  
+        '''Return True or False depending on whether the hero is alive or not.
+        '''
+        # TODO: Check the current_health of the hero.
+        # if it is <= 0, then return False. Otherwise, they still have health
+        # and are therefore alive, so return True
+
+        if self.current_health <= 0:
+            # print("false")
+            return False
+        else:
+            # print("true") 
+            return True 
+
 
 
 if __name__ == "__main__":
     # If you run this file from the terminal
     # this block is executed.
 
-    # my_hero = Hero("Grace Hopper", 200)
+    
     # print(my_hero.name)
     # print(my_hero.current_health)
     # my_hero.fight("slime")
 
-    # ability = Ability("Great Debugging", 50)
+    
     # hero = Hero("Grace Hopper", 200)
-    # hero.add_ability(ability)
+    
     # print(hero.abilities)
 
     # If you run this file from the terminal
@@ -92,8 +140,23 @@ if __name__ == "__main__":
     # hero.add_ability(another_ability)
     # print(hero.attack())
 
+    # hero = Hero("Grace Hopper", 200)
+    
+    # hero.take_damage(50)
+    # print(hero.current_health)
     hero = Hero("Grace Hopper", 200)
+    ability = Ability("Great Debugging", 50)
+    hero.add_ability(ability)
     shield = Armor("Shield", 50)
     hero.add_armor(shield)
-    hero.take_damage(50)
-    print(hero.current_health)
+    
+
+    hero2 = Hero("slime", 200)
+    hero2.add_ability(ability)
+    hero2.add_armor(shield)
+
+    hero.fight(hero2)
+    # hero.take_damage(150)
+    # print(hero.is_alive())
+    # hero.take_damage(15000)
+    # print(hero.is_alive())
