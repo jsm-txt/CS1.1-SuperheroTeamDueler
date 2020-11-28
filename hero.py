@@ -4,6 +4,7 @@ from armor import Armor
 from weapon import Weapon
 from team import Team
 
+
 class Hero:
     # We want our hero to have a default "starting_health",
     # so we can set that in the function header.
@@ -17,6 +18,17 @@ class Hero:
         self.current_health = starting_health
         self.abilities = list()
         self.armors = list()
+        self.deaths = 0
+        self.kills = 0
+    
+    def add_kill(self, num_kills):
+        ''' Update self.kills by num_kills amount'''
+        self.kills += num_kills
+
+
+    def add_death(self, num_deaths):
+        ''' Update deaths with num_deaths'''
+        self.deaths += num_deaths
 
     def add_weapon(self, weapon):
         '''Add weapon to self.abilities'''
@@ -28,36 +40,42 @@ class Hero:
 
 
     def fight(self, opponent):
-        # if hero.abilities == False:
-        #     if opponent.abilities == False:
-        #         print(f"{opponent.name} draw")
-        #     else:print(f"{hero.name} lost")
-        # if opponent.abilities ==  True:
-        #     if hero.abilities == False:
-        #         print(f"{opponent.name} wins")
+        if self.abilities == None:
+            if opponent.abilities == None:
+                print(f"{opponent.name} draw")
+            else:
+                print(f"{self.name} lost")
+        if opponent.abilities == None:
+            print(f"{self.name} wins")
 
         print("A fight ensues")
-        while hero.current_health >= 0 or opponent.current_health >= 0 :
-            power = hero.attack()
-            # print(power)
+        while self.current_health >= 0 and opponent.current_health >= 0 :
+            print(f'{self.name} and {opponent.name} are battaling to death!!')
+            power = self.attack()
+            print(power)
             opponent.take_damage(power)
             print(f'Opponent health is {opponent.current_health}')
 
-            power2 = opponent.attack()
-            # print(power2)
-            hero.take_damage(power2)
-            print(f'Hero health is {hero.current_health}')
-            print(f'{hero.name} and {opponent.name} are battaling to death!!')
-            if hero.is_alive() == False:
-                break
             if opponent.is_alive() == False:
+                self.add_kill(1)
+                opponent.add_death(1)
+                break
+
+            power2 = opponent.attack()
+            print(power2)
+            self.take_damage(power2)
+            print(f'Hero health is {self.current_health}')
+            
+            if self.is_alive() == False:
+                opponent.add_kill(1)
+                self.add_death(1)
                 break
             
-        
-        if hero.current_health >= 0:
-            return print(f'{opponent.name} remains victorious!!')
+        if self.current_health >= 0:
+            return print(f'{self.name} remains victorious!!')
+
         if opponent.current_health >=0:
-            return print(f'{hero.name} remains victorious!!')
+            return print(f'{opponent.name} remains victorious!!')
 
         
 
@@ -127,7 +145,22 @@ class Hero:
 
 
 
-# if __name__ == "__main__"
+# if __name__ == "__main__":
+    # hero = Hero("Grace Hopper", 200)
+    # ability = Ability("Great Debugging", 50)
+    # weapon = Weapon("Lasso of Truth", 90)
+    # hero.add_ability(ability)
+    # hero.add_weapon(weapon)
+    # print(hero.attack())
+    # shield = Armor("Shield", 50)
+    # hero.add_armor(shield)
+        
+
+    # hero2 = Hero("slime", 200)
+    # hero2.add_ability(ability)
+    # hero2.add_armor(shield)
+
+    # hero.fight(hero2)
 #     # If you run this file from the terminal
 #     # this block is executed.
 
@@ -158,20 +191,24 @@ class Hero:
 #     # print(hero.is_alive())
 #     # hero.take_damage(15000)
 #     # print(hero.is_alive())
-#     hero = Hero("Grace Hopper", 200)
-#     ability = Ability("Great Debugging", 50)
-#     weapon = Weapon("Lasso of Truth", 90)
-#     hero.add_ability(ability)
-#     hero.add_weapon(weapon)
-#     print(hero.attack())
-#     shield = Armor("Shield", 50)
-#     hero.add_armor(shield)
     
+    # hero = Hero("Grace Hopper", 200)
+    # ability = Ability("Great Debugging", 50)
+    # weapon = Weapon("Lasso of Truth", 90)
+    # hero.add_ability(ability)
+    # hero.add_weapon(weapon)
 
-#     # hero2 = Hero("slime", 200)
-#     # hero2.add_ability(ability)
-#     # hero2.add_armor(shield)
+    # shield = Armor("Shield", 50)
+    # hero.add_armor(shield)
 
-#     # hero.fight(hero2)
+    # hello = Team('hello')
+    # hello.add_hero(hero)
 
+    # hero2 = Hero("slime", 200)
+    # hero2.add_ability(ability)
+    # hero2.add_weapon(weapon)
+    # hero2.add_armor(shield)
+
+    # hero.fight(hero2)
     
+    # hello.stats
