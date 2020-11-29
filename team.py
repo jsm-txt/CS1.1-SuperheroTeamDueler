@@ -75,5 +75,6 @@ class Team:
                 living_heroes.remove(hero)
             if opponent.is_alive() == False:
                 living_opponents.remove(opponent)
+        
 
 
